@@ -13,11 +13,17 @@ data <- read.csv(dataFile, sep=";", fileEncoding="", encoding="UTF-8")
 
 colnames(data)<- c("id","created_at","name","tweettext","rtcount","favcount","twurl")
 
+dt = data.table(data)
+texts <- dt$tweettext
+texts <-as.character(texts)
+Encoding(texts)<-"UTF-8"
+
 lump = paste(unlist(texts), collapse =" ")
-lump2<-tolower(lump2)
+lump2<-lump
 words = strsplit(lump2, " ")
 
-wordstoremove <- c("rt","ja","\n","","#klassikkotwiitti","#montaääntä")
+
+wordstoremove <- c("rt","#MontaÄäntä", "RT","@SiniHelminen" ,"ja","\n","","#klassikkotwiitti","#montaääntä")
 
 (words <- as.data.frame(sapply(words, function(x) 
   gsub(paste(wordstoremove, collapse = '|'), '', x))))
